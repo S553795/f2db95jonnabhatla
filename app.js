@@ -3,12 +3,29 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var Engine = require("./models/engine");
+require('dotenv').config();
+const connectionString =
+  process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+var db = mongoose.connection;
 
+//Bind connection to error event  
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once("open", function () {
+  console.log("Connection to DB succeeded")
+});
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var engineRouter = require('./routes/engines');
 var gridBuildRouter = require('./routes/gridbuild');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resource');
 
 
 var app = express();
@@ -28,15 +45,16 @@ app.use('/users', usersRouter);
 app.use('/engines', engineRouter);
 app.use('/gridbuild', gridBuildRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -45,5 +63,39 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+async function recreateDB() {
+  // Delete everything 
+  await Engine.deleteMany();
 
+  let instance1 = new
+    Engine({
+      EngineType: "V-type", FuelType: 'diesel', Transmission: 'sequential',
+      Cylinders: 2
+    });
+  let instance2 = new
+    Engine({
+      EngineType: "Radial", FuelType: 'petrol', Transmission: 'semi',
+      Cylinders: 4
+    });
+  let instance3 = new
+    Engine({
+      EngineType: "W-type", FuelType: 'gas', Transmission: 'auto',
+      Cylinders: 2
+    });
+  instance1.save(function (err, doc) {
+    if (err) return console.error(err);
+    console.log("First object saved")
+  });
+  instance2.save(function (err, doc) {
+    if (err) return console.error(err);
+    console.log("Secound object saved")
+  });
+  instance3.save(function (err, doc) {
+    if (err) return console.error(err);
+    console.log("Third object saved")
+  });
+}
+
+let reseed = true;
+if (reseed) { recreateDB(); }
 module.exports = app;

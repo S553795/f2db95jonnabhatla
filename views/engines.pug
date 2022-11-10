@@ -2,7 +2,6 @@ extends layout
 
 block content
   h1= title
-  - var results = [{"EngineType":"IC Engine","Cylinders":4,"FuelType":"Petrol","Transmission":"Manual"},{"EngineType":"V-Type","Cylinders":5,"FuelType":"Diesel","Transmission":"Manual"},{"EngineType":"Radial","Cylinders":6,"FuelType":"LPG","Transmission":"Automatic"}];
   div(class="container-fluid")
     div(class="row")
     each item in results
