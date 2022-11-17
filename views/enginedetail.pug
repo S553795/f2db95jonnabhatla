@@ -1,0 +1,49 @@
+extends layout 
+ 
+block content 
+  h1= title 
+  style.
+    .engineAttr {
+        background-color: aquamarine;
+        color:black;
+    }
+    body{
+        background:url(https://images4.alphacoders.com/320/thumb-1920-32038.jpg);
+        background-size:cover;
+        color:white;
+    }
+    h1{
+        text-align:center;
+    }
+    #sample{
+        position:relative;
+        margin-top:150px;
+        margin-left:50px;
+        text-align:center;
+        background:rgba(0,0,0,0.5);
+        width:90%;
+    }
+  if (toShow == null)
+    h2 No instance to detail
+  else
+    - let engineid = toShow._id 
+    - let EngineType = toShow.EngineType 
+    - let FuelType = toShow.FuelType 
+    - let Cylinders = toShow.Cylinders 
+    - let Transmission = toShow.Transmission 
+    div#sample
+      div.row 
+        div(class='engineAttr') Engine ID is: 
+        div #{engineid} 
+      div.row 
+        div(class='engineAttr mr-3') Engine Name is: 
+        div #{EngineType} 
+      div.row 
+        div(class='engineAttr mr-3') Engine FuelTYpe is: 
+        div #{FuelTYpe} 
+      div.row 
+        div(class='engineAttr mr-3') Engine Transmission is: 
+        div #{Transmission}
+      div.row 
+        div(class='engineAttr mr-3') Engine Cylinders is: 
+        div #{Cylinders}

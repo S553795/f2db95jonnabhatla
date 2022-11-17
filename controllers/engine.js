@@ -34,7 +34,27 @@ exports.engine_detail = async function (req, res) {
         res.send(`{"error": document for id ${req.params.id} not found`);
     }
 };
-
+exports.engine_delete = async function (req, res) {
+    console.log("delete " + req.params.id)
+    try {
+        result = await Engine.findByIdAndDelete(req.params.id)
+        console.log("Removed " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": Error deleting ${err}}`);
+    }
+};
+exports.engine_create_Page = function (req, res) {
+    console.log("create view")
+    try {
+        res.render('enginecreate', { title: 'Engine Create' });
+    }
+    catch (err) {
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
+}
 // Handle Engine create on POST. 
 exports.engine_create_post = async function (req, res) {
     console.log(req.body)
@@ -56,13 +76,30 @@ exports.engine_create_post = async function (req, res) {
         res.send(`{"error": ${err}}`);
     }
 };
-
-
-// Handle Engine delete form on DELETE. 
-exports.engine_delete = function (req, res) {
-    res.send('NOT IMPLEMENTED: Engine delete DELETE ' + req.params.id);
+exports.engine_update_Page = async function (req, res) {
+    console.log("update view for item " + req.query.id)
+    try {
+        let result = await Engine.findById(req.query.id)
+        res.render('engineupdate', { title: 'Engine Update', toShow: result });
+    }
+    catch (err) {
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
 };
-
+exports.engine_delete_Page = async function(req, res) {
+    console.log("Delete view for id " + req.query.id)
+    try{
+    result = await Engine.findById(req.query.id)
+    res.render('enginedelete', { title: 'Engine Delete', toShow:
+   result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+   };
+// Handle Engine delete form on DELETE
 // Handle Engine update form on PUT. 
 exports.engine_update_put = async function (req, res) {
     console.log(`update on id ${req.params.id} with body
@@ -82,5 +119,30 @@ exports.engine_update_put = async function (req, res) {
         res.status(500)
         res.send(`{"error": ${err}: Update for id ${req.params.id}
    failed`);
+    }
+}
+// Handle Engine delete on DELETE. 
+exports.engines_delete = async function (req, res) {
+    console.log("delete " + req.params.id)
+    try {
+        result = await Engine.findByIdAndDelete(req.params.id)
+        console.log("Removed " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": Error deleting ${err}}`);
+    }
+};
+
+exports.engine_view_one_Page = async function (req, res) {
+    console.log("single view for id " + req.query.id)
+    try {
+        result = await Engine.findById(req.query.id)
+        res.render('enginedetail',
+            { title: 'Engine Detail', toShow: result });
+    }
+    catch (err) {
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
     }
 }

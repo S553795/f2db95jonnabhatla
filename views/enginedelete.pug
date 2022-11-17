@@ -1,0 +1,52 @@
+extends layout
+block content
+ h1= title
+ if (toShow == null)
+    h2 No instance to delete
+ else
+    - let engineid = toShow._id
+    - let engine_Type = toShow.engine_Type
+    - let FuelType = toShow.FuelType
+    - let Transmission = toShow.Transmission
+    - let Cylinders = toShow.Cylinders
+    - let actionid = "/resource/engines/" + engineid
+    script let actionid = "#{actionid}"
+    div
+        div.row
+            div(class='engineAttr mr-3') Engine ID is:
+            div #{engineid}
+        div.row
+            div(class='engineAttr mr-3') Engine Type is:
+            div #{engine_Name}
+        div.row
+            div(class='engineAttr mr-3') Engine Size is:
+            div #{Transmission}
+        div.row
+            div(class='engineAttr mr-3') Engine FuelType is:
+            div #{FuelType}
+        div.row
+            div(class='engineAttr mr-3') Engine Cylinders is:
+            div #{Cylinders}
+        button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+        button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+    script.
+        function cancel() {
+            window.location.href='/engines'
+        }
+    script.
+        function deleteOnid() {
+            console.log("starting delete")
+            // delete first
+            fetch(actionid, {
+            method: 'DELETE'
+            }).then((resp) => {
+            return resp.json(); // or resp.text() or whatever the server sends
+            }).then((body) => {
+            alert("Delete succeded")
+            window.location.href='/engines'
+            // TODO handle body
+            }).catch((error) => {
+            // TODO handle error
+            alert("Delete failed " + error )
+            });
+        }
