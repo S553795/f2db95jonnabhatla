@@ -99,17 +99,17 @@ async function recreateDB() {
 
   let instance1 = new
     Engine({
-      EngineType: "V-type", FuelType: 'diesel', Transmission: 'sequential',
+      EngineType: "V-type", FuelType: 'Diesel', Transmission: 'sequential',
       Cylinders: 2
     });
   let instance2 = new
     Engine({
-      EngineType: "Radial", FuelType: 'petrol', Transmission: 'semi',
+      EngineType: "Radial", FuelType: 'Petrol', Transmission: 'semi',
       Cylinders: 4
     });
   let instance3 = new
     Engine({
-      EngineType: "W-type", FuelType: 'gas', Transmission: 'auto',
+      EngineType: "W-type", FuelType: 'Gas', Transmission: 'auto',
       Cylinders: 2
     });
   instance1.save(function (err, doc) {

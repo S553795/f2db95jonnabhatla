@@ -3,6 +3,7 @@ extends layout
 block content
   h1= title
   - var engines = results;
+  a(class='btn btn-warning' href='/engines/create') Create a new Engine instance
   div(class="container-fluid")
     div(class="row m-1")
     each item in engines
@@ -10,6 +11,8 @@ block content
       div(class="col-sm-2" class="m-1" width="215px") Engine Type:#{item.EngineType}, Cylinders:#{item.Cylinders}, FuelType:#{item.FuelType}, Transmission:#{item.Transmission}
         br
         button.btn(class="btn-primary ml-1", onclick=destination) Update
+        a(class="btn btn-primary" href=`/engines/detail/?id=${item._id}`) Details
+        a(class="btn btn-primary" href=`/engines/delete/?id=${item._id}`) Delete
   Script.
     function dispatch(path){
       window.location.href=path
